@@ -1,0 +1,9 @@
+series,file,url,downloaded_utc,bytes,sha256
+fed_shocks,data/raw/frbsf/monetary-policy-surprises-data.xlsx,https://www.frbsf.org/wp-content/uploads/monetary-policy-surprises-data.xlsx,2026-10-12T15:22:12+00:00,301655,708606624de050cdaf6fd850a320b38d45099ab7c2398e01ba12dcece5743668
+eurusd,data/raw/ecb/eurusd.csv,https://data-api.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?format=csvdata,2026-10-12T15:22:13+00:00,1486493,22de07a15f8afb43d1394905dad59c1ca4a2a3f483c9bc908a632b74267af2cf
+ciss_ea,data/raw/ecb/ciss_ea.csv,https://data-api.ecb.europa.eu/service/data/CISS/D.U2.Z0Z.4F.EC.SS_CIN.IDX?format=csvdata,2026-10-12T15:22:13+00:00,3376196,3ab79701affc0f8e1b3039d652c0e8b3fddd085906b3dedd6b01b289b3d1f61a
+bund_10y,data/raw/bundesbank/bund_10y.csv,https://api.statistiken.bundesbank.de/rest/download/BBSIS/D.I.ZAR.ZI.EUR.S1311.B.A604.R10XX.R.A.A._Z._Z.A?format=csv&lang=en,2026-10-12T15:22:14+00:00,231383,4003d409e5188bdd1a97c5f82015f41c202f4eb1b8df90962ae6a3cb39b88c71
+us_10y,data/raw/fred/us_10y.csv,https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10,2026-10-12T15:22:14+00:00,268999,624f2a18b0c5642c72dbf8c58cf54b9dcee50d7d8cb3b7809b9416dabd09dd55
+vix,data/raw/fred/vix.csv,https://fred.stlouisfed.org/graph/fredgraph.csv?id=VIXCLS,2026-10-12T15:22:15+00:00,161544,58d8addea87cdc8e94c47f50762ccc7630238ee602a46c92177272ecea84f4b7
+brent,data/raw/fred/brent.csv,https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILBRENTEU,2026-10-12T15:22:15+00:00,170003,ed1eaa6fd4a95178f922ac8673890d4b39029681be8ad498087545a8accdaaba
+usd_broad,data/raw/fred/usd_broad.csv,https://fred.stlouisfed.org/graph/fredgraph.csv?id=DTWEXBGS,2026-10-12T15:22:15+00:00,104537,75edd28ba1eceade938fa6621edfebc4d4e9cbcc846c6f07be27f8aef0ead321
