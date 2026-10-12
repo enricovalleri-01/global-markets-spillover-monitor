@@ -7,3 +7,4 @@ us_10y,data/raw/fred/us_10y.csv,https://fred.stlouisfed.org/graph/fredgraph.csv?
 vix,data/raw/fred/vix.csv,https://fred.stlouisfed.org/graph/fredgraph.csv?id=VIXCLS,2026-10-12T15:22:15+00:00,161544,58d8addea87cdc8e94c47f50762ccc7630238ee602a46c92177272ecea84f4b7
 brent,data/raw/fred/brent.csv,https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILBRENTEU,2026-10-12T15:22:15+00:00,170003,ed1eaa6fd4a95178f922ac8673890d4b39029681be8ad498087545a8accdaaba
 usd_broad,data/raw/fred/usd_broad.csv,https://fred.stlouisfed.org/graph/fredgraph.csv?id=DTWEXBGS,2026-10-12T15:22:15+00:00,104537,75edd28ba1eceade938fa6621edfebc4d4e9cbcc846c6f07be27f8aef0ead321
+ecb_meetings,data/raw/thesis/ecb_policy_decisions_1999_2025.csv,https://raw.githubusercontent.com/enricovalleri-01/ECB-monetary-surprises-extraction-llm-/main/data/ecb_policy_decisions_FULL_1999_2025.csv%28,2026-10-12T16:15:24+00:00,19881,01e0e1bc5cbf5f9227160f480b465afa40f0cfa2f00291b25e3e1adcbf7c0efa

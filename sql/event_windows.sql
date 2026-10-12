@@ -33,7 +33,14 @@ SELECT
         WHEN 'diff_bp' THEN (f.value - b.value) * 100
         WHEN 'log_pct' THEN 100 * ln(f.value / b.value)
         ELSE f.value - b.value
-    END AS change
+    END AS change,
+    -- TRUE if an ECB Governing Council meeting falls inside the window: after
+    -- the last observation before the announcement, up to the first one after.
+    -- In that case the change also contains the reaction to the ECB decision.
+    EXISTS (
+        SELECT 1 FROM ecb_meetings m
+        WHERE m.date > w.date_before AND m.date <= w.date_after
+    ) AS ecb_meeting_in_window
 FROM windows w
 JOIN observations b ON b.series = w.series AND b.date = w.date_before
 JOIN observations f ON f.series = w.series AND f.date = w.date_after;

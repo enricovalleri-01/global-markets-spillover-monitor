@@ -32,3 +32,9 @@ CREATE TABLE fomc_announcements (
     us10y_30min_bp DOUBLE,             -- 10-year Treasury yield response in the 30-minute window
     PRIMARY KEY (date, time_et)
 );
+
+-- One row per ECB Governing Council monetary policy meeting (from March 1999).
+CREATE TABLE ecb_meetings (
+    date           DATE PRIMARY KEY,
+    dfr_change_bp  DOUBLE NOT NULL     -- change in the deposit facility rate decided that day
+);

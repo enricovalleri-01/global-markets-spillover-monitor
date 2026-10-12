@@ -40,6 +40,14 @@ SERIES = {
     "vix": ("fred", "vix.csv", FRED.format("VIXCLS")),
     "brent": ("fred", "brent.csv", FRED.format("DCOILBRENTEU")),
     "usd_broad": ("fred", "usd_broad.csv", FRED.format("DTWEXBGS")),
+    # ECB Governing Council meeting dates and decisions, from the data of my
+    # master's thesis (the "%28" is a stray "(" in the file name on GitHub).
+    "ecb_meetings": (
+        "thesis",
+        "ecb_policy_decisions_1999_2025.csv",
+        "https://raw.githubusercontent.com/enricovalleri-01/ECB-monetary-surprises-extraction-llm-"
+        "/main/data/ecb_policy_decisions_FULL_1999_2025.csv%28",
+    ),
 }
 
 
@@ -69,6 +77,9 @@ def download(name: str) -> Path:
 
 
 if __name__ == "__main__":
-    for name in SERIES:
+    import sys
+
+    # with no arguments download everything; otherwise only the names given
+    for name in sys.argv[1:] or SERIES:
         path = download(name)
         print(f"{name:12s} -> {path}  ({path.stat().st_size:,} bytes)")

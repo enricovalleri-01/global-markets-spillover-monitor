@@ -79,6 +79,14 @@ def load_announcements() -> pd.DataFrame:
     })
 
 
+def load_ecb_meetings() -> pd.DataFrame:
+    raw = pd.read_csv(RAW / "thesis/ecb_policy_decisions_1999_2025.csv")
+    return pd.DataFrame({
+        "date": pd.to_datetime(raw["meeting_date"]).dt.date,
+        "dfr_change_bp": raw["dfr_change_bp"].astype(float),
+    })
+
+
 def build() -> None:
     DB_FILE.parent.mkdir(parents=True, exist_ok=True)
     DB_FILE.unlink(missing_ok=True)
@@ -93,13 +101,15 @@ def build() -> None:
     )
     observations_df = load_observations()
     announcements_df = load_announcements()
+    ecb_meetings_df = load_ecb_meetings()
 
     con.execute("INSERT INTO series SELECT * FROM series_df")
     con.execute("INSERT INTO observations SELECT * FROM observations_df")
     con.execute("INSERT INTO fomc_announcements SELECT * FROM announcements_df")
+    con.execute("INSERT INTO ecb_meetings SELECT * FROM ecb_meetings_df")
     con.execute(Path("sql/event_windows.sql").read_text())
 
-    for table in ["series", "observations", "fomc_announcements"]:
+    for table in ["series", "observations", "fomc_announcements", "ecb_meetings"]:
         rows = con.execute(f"SELECT count(*) FROM {table}").fetchone()[0]
         print(f"{table:20s} {rows:>8,} rows")
     con.close()
