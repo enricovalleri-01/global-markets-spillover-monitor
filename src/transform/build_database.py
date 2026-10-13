@@ -17,7 +17,7 @@ DB_FILE = Path("data/processed/monitor.duckdb")
 # series: (description, unit, source, source code, change type)
 SERIES = {
     "eurusd": ("EUR/USD, ECB reference rate (US dollars per euro)", "USD per EUR", "ECB", "EXR.D.USD.EUR.SP00.A", "log_pct"),
-    "bund_10y": ("German 10-year government bond yield", "percent", "Bundesbank", "BBSIS.D.I.ZAR.ZI.EUR.S1311.B.A604.R10XX.R.A.A._Z._Z.A", "diff_bp"),
+    "bund_10y": ("German 10-year yield, derived from the term structure of listed Federal securities", "percent", "Bundesbank", "BBSIS.D.I.ZAR.ZI.EUR.S1311.B.A604.R10XX.R.A.A._Z._Z.A", "diff_bp"),
     "ciss_ea": ("Composite Indicator of Systemic Stress, euro area", "index 0-1", "ECB", "CISS.D.U2.Z0Z.4F.EC.SS_CIN.IDX", "diff"),
     "us_10y": ("US 10-year Treasury yield, constant maturity", "percent", "FRED", "DGS10", "diff_bp"),
     "vix": ("CBOE volatility index", "index", "FRED", "VIXCLS", "diff"),
