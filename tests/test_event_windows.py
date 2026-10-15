@@ -15,7 +15,7 @@ def test_python_horizon_1_matches_sql_view():
     # on the same set of announcements, in both the change and the ECB flag.
     con = duckdb.connect(DB_FILE, read_only=True)
     panel = build_panel(*load(con))
-    python = panel[panel["h"] == 1].set_index(["date", "series"])[["change", "ecb_in_window"]].sort_index()
+    python = panel[panel["h"] == 1][["date", "series", "change", "ecb_in_window"]]
 
     sql = con.execute(
         """
@@ -23,11 +23,17 @@ def test_python_horizon_1_matches_sql_view():
         FROM event_windows
         WHERE announcement_date >= '1999-01-01' AND series IN ('us_10y', 'bund_10y', 'eurusd', 'ciss_ea')
         """
-    ).df().set_index(["date", "series"]).sort_index()
+    ).df()
+
+    # Pandas and DuckDB can store dates at different resolutions (nanoseconds or
+    # microseconds), so both are converted to the same type before comparing.
+    python = python.assign(date=pd.to_datetime(python["date"]).astype("datetime64[ns]")).set_index(["date", "series"]).sort_index()
+    sql = sql.assign(date=pd.to_datetime(sql["date"]).astype("datetime64[ns]")).set_index(["date", "series"]).sort_index()
 
     assert len(python) == len(sql) == 214 * 4
+    assert python.index.equals(sql.index)  # the same announcements and series on both sides
     assert np.allclose(python["change"], sql["change"])
-    assert (python["ecb_in_window"] == sql["ecb_meeting_in_h1_window"]).all()
+    assert (python["ecb_in_window"].to_numpy() == sql["ecb_meeting_in_h1_window"].to_numpy()).all()
 
 
 def test_one_known_window():

@@ -18,7 +18,7 @@ SERIES = {
 SPECIFICATIONS = {
     "baseline": ("Baseline", "#1f4e9c"),
     "no_ecb_meeting": ("No ECB meeting in window", "#d1793b"),
-    "raw_shock": ("Raw surprise (incl. 2020)", "#5a9e6f"),
+    "raw_shock": ("Raw surprise (adds Mar-Dec 2020)", "#5a9e6f"),
     "scheduled_only": ("Scheduled meetings only", "#8b5fa8"),
     "no_coordinated_cut": ("Without 8 Oct 2008", "#7a7a7a"),
 }

@@ -82,12 +82,16 @@ def build_panel(series, observations, events, ecb_dates, responses=RESPONSES, ho
                 # Is there an ECB meeting after the starting observation and up
                 # to the final one? This is a calendar match, by date only.
                 ecb_in_window = bool(((ecb_dates > dates[i_before]) & (ecb_dates <= dates[i])).any())
+                # The meeting calendar starts in March 1999: before that, "no
+                # meeting" cannot be told apart from "no data".
+                calendar_covers = bool(dates[i_before] >= ecb_dates.min())
                 rows.append((
                     event_date, name, h, dates[i_before], dates[i],
-                    change(values[i_before], values[i], change_type), ecb_in_window,
+                    change(values[i_before], values[i], change_type), ecb_in_window, calendar_covers,
                 ))
     panel = pd.DataFrame(
-        rows, columns=["date", "series", "h", "date_before", "date_end", "change", "ecb_in_window"]
+        rows,
+        columns=["date", "series", "h", "date_before", "date_end", "change", "ecb_in_window", "calendar_covers"],
     )
     return panel.merge(events, on="date")
 
@@ -122,9 +126,9 @@ def robustness(panel: pd.DataFrame) -> pd.DataFrame:
     main = panel[panel["h"].isin(MAIN_HORIZONS)]
     specifications = {
         "baseline": estimate(main),
-        # windows that contain no ECB meeting
-        "no_ecb_meeting": estimate(main[~main["ecb_in_window"]]),
-        # raw surprise instead of the orthogonalised one: brings 2020 back
+        # windows with no recorded ECB meeting, among those the calendar covers
+        "no_ecb_meeting": estimate(main[~main["ecb_in_window"] & main["calendar_covers"]]),
+        # raw surprise instead of the orthogonalised one: brings back March-December 2020
         "raw_shock": estimate(main, shock="mps_bp"),
         # scheduled announcements only
         "scheduled_only": estimate(main[~main["unscheduled"]]),

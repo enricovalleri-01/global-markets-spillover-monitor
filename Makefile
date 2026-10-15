@@ -10,13 +10,15 @@
 # when I want to update the sample.
 
 PYTHON = .venv/bin/python
+# the Python used to create the environment; the results were produced with 3.12
+SYSTEM_PYTHON ?= python3.12
 
 .PHONY: all setup download database estimates figure monitor test clean
 
 all: figure monitor test
 
 setup:
-	python3 -m venv .venv
+	$(SYSTEM_PYTHON) -m venv .venv
 	$(PYTHON) -m pip install -r requirements.txt
 
 download:

@@ -42,7 +42,7 @@ def summary(con) -> pd.DataFrame:
 
 def markdown_table(table: pd.DataFrame) -> str:
     lines = [
-        "| Series | Last date | Level | 1 week | 1 month | 1 year | Change unit | Percentile since 1999 |",
+        "| Series | Last date | Level | 1 week | 1 month | 1 year | Change unit | Percentile since 1999* |",
         "| --- | --- | ---: | ---: | ---: | ---: | --- | ---: |",
     ]
     for _, r in table.iterrows():
@@ -107,6 +107,8 @@ the share of daily observations since 1999 below the latest level (since 2006
 for the broad dollar index).
 
 {markdown_table(table)}
+
+\* Since 2006 for the broad dollar index, the first year of the series.
 
 ![Monitor charts](monitor_charts.png)
 

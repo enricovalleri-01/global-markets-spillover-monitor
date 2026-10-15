@@ -16,10 +16,11 @@ financial stress stand today.
 ![Cumulative response to a 10 basis point US monetary policy surprise](outputs/figures/lp_baseline.png)
 
 A 10 basis point tightening surprise by the Fed raises the US 10-year yield by
-about 4.7 basis points over the window that ends the day after the
-announcement. The German 10-year yield rises by about 2.4, roughly half as
-much, and the euro loses 0.44% against the dollar. Euro area systemic stress
-(the ECB's CISS) shows no reaction in the first days.
+about 4.7 basis points over the window that ends at the first observation after
+the announcement (h = 1). The German 10-year yield rises by about 2.4, roughly
+half as much, and the euro loses 0.44% against the dollar. Euro area systemic
+stress (the ECB's CISS) shows no statistically detectable response at the main
+horizons.
 
 | Response to a 10 bp surprise | h = 1 | h = 2 | h = 5 |
 | --- | ---: | ---: | ---: |
@@ -77,12 +78,14 @@ Some choices you might question:
   New York, after the European values for that day are recorded, and a few
   come out in the morning. A window from the day before to the day after
   contains the reaction in both cases. The cost is a wider window with other
-  news in it, so I describe the results as cumulative daily responses.
+  news in it, so I describe the results as cumulative daily responses. Horizon
+  h is the h-th observation after the announcement day: weekends and holidays
+  are skipped, so h counts observations, not calendar days.
 - **The surprise comes from a 30-minute window.** Bauer and Swanson measure it
   in interest rate futures around the announcement and remove the part that
   macro and financial data released earlier could predict. I use their
-  orthogonalised series, which leaves 201 announcements: it is missing for all
-  of 2020 and for 17 September 2001.
+  orthogonalised series, which leaves 201 announcements: it is missing for
+  March to December 2020 and for 17 September 2001.
 - **Standard errors are Newey-West with two lags.** Announcements close in time
   (August 2007, autumn 2008) have overlapping windows, so their errors are
   correlated. A lag here is one announcement, not one day.
@@ -94,32 +97,41 @@ Some choices you might question:
 ## Robustness
 
 [`outputs/tables/lp_robustness.csv`](outputs/tables/lp_robustness.csv)
-repeats the main horizons in four variations: without windows that contain an
-ECB meeting, with the raw surprise instead of the orthogonalised one, with
-scheduled meetings only, and without 8 October 2008, when the Fed and the ECB
-cut rates together. The yield and exchange-rate responses keep their sign in
-all of them. The weakest estimate is the
-German yield at h = 2, which loses significance when I drop the windows with an
-ECB meeting or switch to the raw surprise.
+repeats the main horizons in four variations: without windows that contain a
+recorded ECB meeting (and without the one announcement before the meeting
+calendar starts in March 1999), with the raw surprise instead of the
+orthogonalised one, with scheduled meetings only, and without 8 October 2008,
+when the Fed and the ECB cut rates together. The yield and exchange-rate
+estimates keep their sign in all of them. The exchange rate is significant at
+10% in all five at h = 1 and 2, and in none at h = 5. Four yield estimates lose
+significance: the German and US yields at h = 2 without windows with an ECB
+meeting, and the German yield at h = 2 and 5 with the raw surprise. The
+comparison shows that the German estimate is sensitive to those windows; it
+cannot tell whether that reflects ECB news or a different sample.
 
 ## What this does not show
 
-- It says nothing about inflation or the real economy. The two channels it
-  measures, higher yields and a weaker euro, push euro area inflation in
-  opposite directions, and the net effect is not estimated here.
+- It says nothing about financing costs, inflation or the real economy. It
+  measures a German government bond yield and a bilateral exchange rate. Higher
+  yields and a weaker euro relate to mechanisms that, all else equal, would
+  push inflation in opposite directions, but neither mechanism is estimated
+  here.
 - A daily window picks up other news, and the ECB meeting flag matches dates,
   not times of day.
 - The same h can end on different calendar days for different series, because
   holidays differ. At h = 20 the German and US windows end on different days
   for 168 of 201 announcements.
-- The CISS turns positive after about three weeks (0.03 at h = 20, p = 0.04). I
-  treat it as exploratory: it is far from the horizons I fixed in advance.
+- The CISS point estimates turn slightly positive from h = 3 and become
+  pointwise significant at 10% from h = 12 (0.03 at h = 20, p = 0.04). I treat
+  this as exploratory: it is far from the horizons I fixed in advance.
 - The surprise series ends in December 2023, so the 2024-2025 cutting cycle is
   outside the sample.
 
 ## How to run it
 
-You need Python 3 (I use 3.12) and `make`.
+You need Python 3.12 and `make`. The committed results were produced with
+Python 3.12.9 and the package versions pinned in `requirements.txt`; other
+versions give the same numbers but figures can differ pixel by pixel.
 
 ```
 make setup   # create .venv and install requirements.txt
@@ -134,11 +146,11 @@ The steps behind `make`:
 
 | Step | Command | Output |
 | --- | --- | --- |
-| Download (optional) | `python -m src.ingest.download` | `data/raw/`, `download_log.csv` |
-| Database | `python -m src.transform.build_database` | `data/processed/monitor.duckdb` |
-| Estimates | `python -m src.models.local_projections` | `outputs/tables/` |
-| Figures | `python -m src.models.plot_baseline`, `plot_robustness` | `outputs/figures/` |
-| Monitor | `python -m src.dashboard.build_monitor` | `outputs/monitor/`, `outputs/excel/` |
+| Download (optional) | `.venv/bin/python -m src.ingest.download` | `data/raw/`, `download_log.csv` |
+| Database | `.venv/bin/python -m src.transform.build_database` | `data/processed/monitor.duckdb` |
+| Estimates | `.venv/bin/python -m src.models.local_projections` | `outputs/tables/` |
+| Figures | `.venv/bin/python -m src.models.plot_baseline`, then `src.models.plot_robustness` | `outputs/figures/` |
+| Monitor | `.venv/bin/python -m src.dashboard.build_monitor` | `outputs/monitor/`, `outputs/excel/` |
 
 The six tests in `tests/` check the sample size, the units of each change, the
 windows on a small made-up calendar with a holiday and a weekend, and that the
@@ -163,7 +175,8 @@ reviews/         a review of the baseline by OpenAI Codex and my response to eac
 
 [`outputs/monitor/monitor.md`](outputs/monitor/monitor.md) shows, for each
 series, the latest value, its change over a week, a month and a year, and the
-percentile of the latest level since 1999, with charts since 2019. The summary
+percentile of the latest level since 1999 (since 2006 for the broad dollar
+index, which starts then), with charts since 2019. The summary
 is one SQL query, [`sql/monitor_summary.sql`](sql/monitor_summary.sql). The
 same table and the estimates are exported to
 [`outputs/excel/global_markets_monitor.xlsx`](outputs/excel/global_markets_monitor.xlsx).
@@ -184,3 +197,11 @@ surprises and high-frequency identification. *NBER Macroeconomics Annual* 37.
 
 Jordà, Ò. (2005). Estimation and inference of impulse responses by local
 projections. *American Economic Review* 95(1), 161-182.
+
+## License
+
+The code is released under the [MIT License](LICENSE). The raw data files in
+`data/raw/` are included only so that the results can be reproduced; they
+belong to their providers (Federal Reserve Bank of San Francisco, ECB,
+Deutsche Bundesbank, and the original sources of the FRED series) and remain
+subject to their terms of use.

@@ -7,7 +7,7 @@ basis points for yields and the spread, in percent for exchange rates and oil
 the share of daily observations since 1999 below the latest level (since 2006
 for the broad dollar index).
 
-| Series | Last date | Level | 1 week | 1 month | 1 year | Change unit | Percentile since 1999 |
+| Series | Last date | Level | 1 week | 1 month | 1 year | Change unit | Percentile since 1999* |
 | --- | --- | ---: | ---: | ---: | ---: | --- | ---: |
 | EUR/USD | 12 Oct 2026 | 1.12 USD per EUR | -0.21 | -3.61 | -3.40 | % | 35 |
 | US dollar, broad index | 02 Oct 2026 | 121.38 index | +0.87 | +2.38 | +0.79 | % | 90 |
@@ -17,6 +17,8 @@ for the broad dollar index).
 | Brent crude oil | 06 Oct 2026 | 125.44 USD per barrel | +9.60 | +20.45 | +62.58 | % | 99 |
 | VIX | 09 Oct 2026 | 14.84 index | -0.47 | -1.62 | -1.59 | points | 29 |
 | Euro area systemic stress (CISS) | 08 Oct 2026 | 0.0168 index 0-1 | -0.0057 | -0.0055 | -0.0330 | points | 19 |
+
+\* Since 2006 for the broad dollar index, the first year of the series.
 
 ![Monitor charts](monitor_charts.png)
 

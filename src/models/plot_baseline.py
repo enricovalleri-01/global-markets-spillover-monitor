@@ -37,8 +37,8 @@ def main() -> None:
     fig.suptitle("Cumulative response to a 10 basis point US monetary policy surprise", fontsize=12, x=0.02, ha="left")
     fig.text(
         0.02, 0.005,
-        f"Local projections on {n} FOMC announcements, 1999-2023; 2020 and 17 September 2001 are excluded because the orthogonalised\n"
-        "surprise is missing. Change from the last observation before the announcement day; horizons are counted in each series' own\n"
+        f"Local projections on {n} FOMC announcements, 1999-2023; March-December 2020 and 17 September 2001 are excluded because\n"
+        "the orthogonalised surprise is missing. Change from the last observation before the announcement day; horizons are counted in each series' own\n"
         "calendar. Shaded area: pointwise 90% intervals, Newey-West standard errors (2 announcement lags).\n"
         "Shock: Bauer-Swanson orthogonalised surprise. Sources: FRBSF, ECB, Bundesbank, FRED.",
         fontsize=7.5, color="#444444", va="bottom",

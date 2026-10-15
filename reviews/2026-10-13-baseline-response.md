@@ -29,3 +29,12 @@ stop at horizon 5.
 The count of windows with an ECB meeting is 27 of 201 at horizon 1 and 142 of
 201 at horizon 20. Excluding them is therefore only informative at short
 horizons.
+
+## Correction, 15 October 2026
+
+Rows 1 and 8 above, and the 13 October review, say that the orthogonalised
+surprise is missing for all of 2020. That is wrong: it is missing for March to
+December 2020 (12 announcements) and for 17 September 2001; the announcement
+of 29 January 2020 is in the sample. The final review of 15 October found the
+error, and the note, README and figure captions now say "March to December
+2020". The estimates were never affected, only their description.
