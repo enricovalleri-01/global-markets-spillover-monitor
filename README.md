@@ -173,9 +173,9 @@ The monitor uses the data downloaded on 12 October 2026; `make download` then
 ## Next steps
 
 Possible extension, not planned: the pass-through of the exchange rate and
-   oil prices to euro area HICP energy and food inflation. With monthly data
-   and surprises of a few basis points, I expect the estimates to be too
-   imprecise to conclude much, which is why it is outside the current scope.
+oil prices to euro area HICP energy and food inflation. With monthly data and
+surprises of a few basis points, I expect the estimates to be too imprecise to
+conclude much, which is why it is outside the current scope.
 
 ## References
 
