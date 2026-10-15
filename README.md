@@ -6,9 +6,10 @@ euro area financial stress in the days after each FOMC announcement from 1999
 to 2023. Everything runs from public data, and one command rebuilds every table
 and figure from the raw files.
 
-The analysis of market responses is complete. A short policy note on the
-results is in [`note/`](note/policy_note.md), and a monitoring dashboard comes
-next.
+The project has three outputs: the event study below, a two-page
+[policy note](note/policy_note.md) on its results, and a
+[monitor](outputs/monitor/monitor.md) of where exchange rates, yields, oil and
+financial stress stand today.
 
 ## Main result
 
@@ -129,14 +130,15 @@ make         # build the database, estimate, draw the figure, run the tests
 this README. `make download` fetches fresh data from the sources; the sample
 and the results will change with it.
 
-The four steps behind `make`:
+The steps behind `make`:
 
 | Step | Command | Output |
 | --- | --- | --- |
 | Download (optional) | `python -m src.ingest.download` | `data/raw/`, `download_log.csv` |
 | Database | `python -m src.transform.build_database` | `data/processed/monitor.duckdb` |
 | Estimates | `python -m src.models.local_projections` | `outputs/tables/` |
-| Figure | `python -m src.models.plot_baseline` | `outputs/figures/lp_baseline.png` |
+| Figures | `python -m src.models.plot_baseline`, `plot_robustness` | `outputs/figures/` |
+| Monitor | `python -m src.dashboard.build_monitor` | `outputs/monitor/`, `outputs/excel/` |
 
 The six tests in `tests/` check the sample size, the units of each change, the
 windows on a small made-up calendar with a holiday and a weekend, and that the
@@ -149,16 +151,28 @@ data/raw/        raw files as downloaded, plus the download log
 sql/             database schema and the event-window view
 src/ingest/      download script
 src/transform/   builds the DuckDB database from data/raw
-src/models/      local projections and the figure
+src/models/      local projections and the figures
+src/dashboard/   the monitor page, its charts and the Excel export
+note/            the policy note
 outputs/         tables (CSV) and figures
 tests/           pytest checks
 reviews/         a review of the baseline by OpenAI Codex and my response to each point
 ```
 
+## Monitor
+
+[`outputs/monitor/monitor.md`](outputs/monitor/monitor.md) shows, for each
+series, the latest value, its change over a week, a month and a year, and the
+percentile of the latest level since 1999, with charts since 2019. The summary
+is one SQL query, [`sql/monitor_summary.sql`](sql/monitor_summary.sql). The
+same table and the estimates are exported to
+[`outputs/excel/global_markets_monitor.xlsx`](outputs/excel/global_markets_monitor.xlsx).
+The monitor uses the data downloaded on 12 October 2026; `make download` then
+`make` updates it, and the event-study results with it.
+
 ## Next steps
 
-1. A dashboard for exchange rates, yields, commodities and financial stress.
-2. Possible extension, not planned: the pass-through of the exchange rate and
+Possible extension, not planned: the pass-through of the exchange rate and
    oil prices to euro area HICP energy and food inflation. With monthly data
    and surprises of a few basis points, I expect the estimates to be too
    imprecise to conclude much, which is why it is outside the current scope.

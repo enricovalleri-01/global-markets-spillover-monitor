@@ -1,7 +1,8 @@
 # Rebuild everything from the raw files in data/raw:
 #
 #   make setup   create the virtual environment and install the packages
-#   make         build the database, run the estimates, draw the figure, run the tests
+#   make         build the database, run the estimates, draw the figures, build the
+#                monitor, run the tests
 #   make clean   delete the database (it is rebuilt by the next "make")
 #
 # "make download" fetches the raw files again from the sources. It is not part
@@ -10,9 +11,9 @@
 
 PYTHON = .venv/bin/python
 
-.PHONY: all setup download database estimates figure test clean
+.PHONY: all setup download database estimates figure monitor test clean
 
-all: figure test
+all: figure monitor test
 
 setup:
 	python3 -m venv .venv
@@ -30,6 +31,9 @@ estimates: database
 figure: estimates
 	$(PYTHON) -m src.models.plot_baseline
 	$(PYTHON) -m src.models.plot_robustness
+
+monitor: estimates
+	$(PYTHON) -m src.dashboard.build_monitor
 
 test: database
 	$(PYTHON) -m pytest -q
