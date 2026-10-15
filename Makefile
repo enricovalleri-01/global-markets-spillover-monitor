@@ -33,6 +33,7 @@ estimates: database
 figure: estimates
 	$(PYTHON) -m src.models.plot_baseline
 	$(PYTHON) -m src.models.plot_robustness
+	$(PYTHON) -m src.models.plot_scatter
 
 monitor: estimates
 	$(PYTHON) -m src.dashboard.build_monitor

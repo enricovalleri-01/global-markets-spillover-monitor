@@ -11,6 +11,17 @@ The project has three outputs: the event study below, a two-page
 [monitor](outputs/monitor/monitor.md) of where exchange rates, yields, oil and
 financial stress stand today.
 
+## The idea in one picture
+
+![Each dot is one FOMC announcement: the Fed surprise against the change in the German 10-year yield](outputs/figures/scatter_bund_h1.png)
+
+Each dot is one Fed announcement. The further right, the bigger the tightening
+surprise; the higher, the more German yields rose by the next observation. The
+orange line is the average relationship, and its slope is the main estimate:
+about 2.4 basis points for every 10 basis points of surprise. The same
+regression is repeated for each market and for horizons of 1 to 20
+observations.
+
 ## Main result
 
 ![Cumulative response to a 10 basis point US monetary policy surprise](outputs/figures/lp_baseline.png)
@@ -149,7 +160,7 @@ The steps behind `make`:
 | Download (optional) | `.venv/bin/python -m src.ingest.download` | `data/raw/`, `download_log.csv` |
 | Database | `.venv/bin/python -m src.transform.build_database` | `data/processed/monitor.duckdb` |
 | Estimates | `.venv/bin/python -m src.models.local_projections` | `outputs/tables/` |
-| Figures | `.venv/bin/python -m src.models.plot_baseline`, then `src.models.plot_robustness` | `outputs/figures/` |
+| Figures | `.venv/bin/python -m src.models.plot_baseline`, then `src.models.plot_robustness` and `src.models.plot_scatter` | `outputs/figures/` |
 | Monitor | `.venv/bin/python -m src.dashboard.build_monitor` | `outputs/monitor/`, `outputs/excel/` |
 
 The six tests in `tests/` check the sample size, the units of each change, the
